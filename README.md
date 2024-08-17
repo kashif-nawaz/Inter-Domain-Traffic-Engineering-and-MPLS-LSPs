@@ -4,3 +4,5 @@ RSVP-TE offers rich feature set for traffic engineering in MPLS backbone network
 
 To resolve above mentioned challenges , one approach could be to distribute IGP into multiple areas but problem is traffic engineering database (TED) which is populated from IGP traffic engineering information can not be traversed IGP boundaries. Hence RSVP-TE LSPs are dependent upon TED and due to non-availability of TED across multiple IGP areas RSVP-TE LSPs across multiple IGP areas would not come up.  Thanks to brilliant minds who contributed for [rfc7752](https://datatracker.ietf.org/doc/html/rfc7752) , this RFC explains operation of BGP-LS (link stat) where IGP link state information from TED can be distributed via BGP.
 
+In this write up , I will explain how to set up RSVP-TE LSPs across multiple IGP areas using BGP-LS. Prior to discussing actual configuration it's important to understand different components involved in this process.  
+![TED](./images/ted.png)
