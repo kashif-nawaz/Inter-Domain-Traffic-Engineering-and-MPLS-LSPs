@@ -1,0 +1,88 @@
+﻿﻿root@R10-mtd2-PE2> show configuration | display set | no-more 
+set version 23.2R2.21-EVO
+set groups core-ifd interfaces <*> mtu 9192
+set groups core-ifd interfaces <*> hold-time up 1000
+set groups core-ifd interfaces <*> hold-time down 0
+set groups core-ifd interfaces <*> unit 0 family iso
+set groups core-ifd interfaces <*> unit 0 family mpls
+set groups edge-ifd interfaces <*> mtu 9192
+set groups edge-ifd interfaces <*> hold-time up 1000
+set groups edge-ifd interfaces <*> hold-time down 0
+set groups edge-ifd interfaces <*> unit 0 family mpls
+set system host-name R10-mtd2-PE2
+set system root-authentication encrypted-password "$6$eO/YZvXT$YEpDctH3MibZfMjaJazYNZUs018foZJC0Pa6SH/ihqYu15IrAr/GmiomW9Sy.YgK6Wqbzen.DgcZ3.zrsx.6H0"
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set system services ssh root-login allow
+set system management-instance
+set system processes nlsd enable
+set interfaces et-0/0/0 apply-groups core-ifd
+set interfaces et-0/0/0 unit 0 family inet address 10.9.10.10/24
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/1 apply-groups edge-ifd
+set interfaces et-0/0/1 unit 0 family inet address 10.8.10.10/24
+set interfaces et-0/0/1 unit 0 family iso
+set interfaces et-0/0/2 apply-groups core-ifd
+set interfaces et-0/0/2 unit 0 family inet address 10.10.12.10/24
+set interfaces et-0/0/2 unit 0 family iso
+set interfaces et-0/0/3 apply-groups core-ifd
+set interfaces et-0/0/3 unit 0 family inet address 10.10.11.10/24
+set interfaces lo0 unit 0 family inet address 170.170.170.2/32
+set interfaces lo0 unit 0 family iso address 49.1700.1700.1700.0002.00
+set interfaces re0:mgmt-0 unit 0 family inet address 192.168.24.160/24
+set policy-options policy-statement accept-all from family traffic-engineering
+set policy-options policy-statement accept-all then accept
+set policy-options policy-statement ecmp then load-balance per-packet
+set policy-options policy-statement nhs then next-hop self
+set policy-options policy-statement nlri2bgp term 1 from family traffic-engineering
+set policy-options policy-statement nlri2bgp term 1 then next-hop self
+set policy-options policy-statement nlri2bgp term 1 then accept
+set policy-options policy-statement ted2nlri term 1 from protocol isis
+set policy-options policy-statement ted2nlri term 1 then accept
+set policy-options policy-statement ted2nlri term 2 then reject
+set policy-options policy-statement to-BR term 1 from route-filter 170.170.170.0/29 orlonger
+set policy-options policy-statement to-BR term 1 then next-hop self
+set policy-options policy-statement to-BR term 1 then accept
+set policy-options policy-statement to-BR term 2 then reject
+set routing-instances mgmt_junos routing-options static route 0.0.0.0/0 next-hop 192.168.24.1
+set routing-options autonomous-system 65000
+set routing-options forwarding-table export ecmp
+set protocols bgp group br type internal
+set protocols bgp group br family inet unicast
+set protocols bgp group br family traffic-engineering unicast
+set protocols bgp group br export nlri2bgp
+set protocols bgp group br cluster 4.4.4.4
+set protocols bgp group br neighbor 10.8.10.8 local-address 10.8.10.10
+set protocols bgp group internal type internal
+set protocols bgp group internal local-address 170.170.170.2
+set protocols bgp group internal family inet unicast
+set protocols bgp group internal family traffic-engineering unicast
+set protocols bgp group internal export nhs
+set protocols bgp group internal cluster 44.44.44.44
+set protocols bgp group internal multipath
+set protocols bgp group internal neighbor 170.170.170.3
+set protocols bgp group internal neighbor 170.170.170.4
+set protocols isis interface et-0/0/0.0 point-to-point
+set protocols isis interface et-0/0/1.0 passive remote-node-iso 1710.1710.0004
+set protocols isis interface et-0/0/1.0 passive remote-node-id 171.171.171.4
+set protocols isis interface et-0/0/2.0 point-to-point
+set protocols isis interface et-0/0/3.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis level 1 disable
+set protocols mpls traffic-engineering database import policy ted2nlri
+set protocols mpls traffic-engineering database export policy accept-all
+set protocols mpls label-switched-path R10-mtd2-PE2-R9-mtd2-PE1 to 170.170.170.1
+set protocols mpls label-switched-path R10-mtd2-PE2-R11-mtd2-PE3 to 170.170.170.3
+set protocols mpls label-switched-path R10-mtd2-PE2-R12-mtd2-PE3 to 170.170.170.4
+set protocols mpls interface et-0/0/1.0
+set protocols mpls interface et-0/0/0.0
+set protocols mpls interface et-0/0/2.0
+set protocols mpls interface et-0/0/3.0
+set protocols rsvp interface et-0/0/1.0
+set protocols rsvp interface et-0/0/0.0
+set protocols rsvp interface et-0/0/2.0
+set protocols rsvp interface et-0/0/3.0
+set protocols lldp port-id-subtype interface-name
+set protocols lldp interface all
+

@@ -1,0 +1,65 @@
+﻿﻿[vrf:none] root@R2-mtd1-PE2:~# cli
+root@R2-mtd1-PE2> show configuration | display set | no-more 
+set version 23.2R1-S1.8-EVO
+set groups global interfaces lo0 unit 0 family inet address 127.0.0.1/24
+set groups core-ifd interfaces <*> mtu 9192
+set groups core-ifd interfaces <*> hold-time up 1000
+set groups core-ifd interfaces <*> hold-time down 0
+set groups core-ifd interfaces <*> unit 0 family iso
+set groups core-ifd interfaces <*> unit 0 family mpls
+set groups edge-ifd interfaces <*> mtu 9192
+set groups edge-ifd interfaces <*> hold-time up 1000
+set groups edge-ifd interfaces <*> hold-time down 0
+set groups edge-ifd interfaces <*> unit 0 family mpls
+set system host-name R2-mtd1-PE2
+set system root-authentication encrypted-password "$6$uGJOIQj8$K2qw9PxOo2cEEQmYNIMRE.yDNKiRf63LjHW8iklr6CpQnV.GphX/UEdthICVHSsi7VvBeXbkFys4rRLV72bQA."
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set system services ssh root-login allow
+set system management-instance
+set system processes nlsd enable
+set interfaces et-0/0/0 apply-groups core-ifd
+set interfaces et-0/0/0 unit 0 family inet address 10.1.2.2/24
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/2 apply-groups core-ifd
+set interfaces et-0/0/2 unit 0 family inet address 10.2.3.2/24
+set interfaces et-0/0/3 apply-groups core-ifd
+set interfaces et-0/0/3 unit 0 family inet address 10.2.4.2/24
+set interfaces et-0/0/3 unit 0 family iso
+set interfaces lo0 unit 0 family inet address 172.172.172.2/32
+set interfaces lo0 unit 0 family iso address 47.1720.1720.1720.0002.00
+set interfaces re0:mgmt-0 unit 0 family inet address 192.168.24.152/24
+set policy-options policy-statement accept-all from family traffic-engineering
+set policy-options policy-statement accept-all then accept
+set policy-options policy-statement ecmp then load-balance per-packet
+set routing-instances mgmt_junos routing-options static route 0.0.0.0/0 next-hop 192.168.24.1
+set routing-options autonomous-system 65000
+set routing-options forwarding-table export ecmp
+set protocols bgp group internal type internal
+set protocols bgp group internal local-address 172.172.172.2
+set protocols bgp group internal family inet unicast
+set protocols bgp group internal family traffic-engineering unicast
+set protocols bgp group internal multipath
+set protocols bgp group internal neighbor 172.172.172.3
+set protocols bgp group internal neighbor 172.172.172.4
+set protocols isis interface et-0/0/0.0 point-to-point
+set protocols isis interface et-0/0/2.0 point-to-point
+set protocols isis interface et-0/0/3.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis level 1 disable
+set protocols mpls traffic-engineering database export policy accept-all
+set protocols mpls label-switched-path R2-mtd1-PE2-R4-mtd1-PE4 to 172.172.172.4
+set protocols mpls label-switched-path R2-mtd1-PE2-R4-mtd1-PE3 to 172.172.172.3
+set protocols mpls label-switched-path R2-mtd1-PE2-R1-mtd1-PE1 to 172.172.172.1
+set protocols mpls label-switched-path R2-mtd1-PE2-R12-mtd2-PE4 to 170.170.170.4
+set protocols mpls label-switched-path R2-mtd1-PE2-R12-mtd2-PE4 cross-credibility-cspf
+set protocols mpls interface et-0/0/3.0
+set protocols mpls interface et-0/0/0.0
+set protocols mpls interface et-0/0/2.0
+set protocols rsvp interface et-0/0/3.0
+set protocols rsvp interface et-0/0/0.0
+set protocols rsvp interface et-0/0/2.0
+set protocols lldp port-id-subtype interface-name
+set protocols lldp interface all
+

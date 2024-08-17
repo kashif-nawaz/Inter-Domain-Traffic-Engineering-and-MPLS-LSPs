@@ -123,5 +123,5 @@ Ingress LSP: 5 sessions
   ```
 
   ## Conclusion
-  
-  Getting a working solution to problem always gives joyful feelings but every picture has its dark side as well, so what is downside of having cross domain RSVP-TE LSPs via BGP-LS?  This solution always requires BGP-LS on BRs (Border Routers) which in itself add a substantial challenge and add a limitation as well because enterprise WAN backbone links are usually full meshed across different region for diversity of traffic paths not like linear connectivity depicted in this lab. 
+
+  Getting a working solution for a potential problem always gives joyful feelings but every picture has its dark side as well, so what is downside of having cross domain RSVP-TE LSPs via BGP-LS?  This solution always requires BGP-LS on BRs (Border Routers) which in itself add a substantial challenge and add  limitations as well because enterprise WAN backbone links are usually full meshed across different region for diversity of traffic paths and are not like linear connectivity depicted in this lab. 
