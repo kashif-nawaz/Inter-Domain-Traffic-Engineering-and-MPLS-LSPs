@@ -9,7 +9,11 @@ In this write up , I will explain , in Junos how to set up RSVP-TE LSPs across m
 
 Above diagram explains this whole operation in chronological order , IGP populates TED and ls dist.0 routing table is populated information from TED using import policy , once ls dist.0 routing is populated then that information is exported into BGP-LS , which also receives TED from peer router and that information is placed into ls dist.0 from where it is exported to TED. Once TED is populated from across domain information then REVP-TE has required information to build the across domain traffic engineered LSPs.
 
-Lab configurations are difficult to assimilate without understanding lab topology so lets understand out lab topology.
+Lab configurations are difficult to assimilate without understanding lab topology so lets first understand our lab topology.
 ![physical_topology](./images/physical_topology.png)
 
 We have 3 domains (metro domain 1 (mtd1), backbone domain (bbd) and metro domain2 (mtd2), all domains have same autonomous-system (AS) i.e 65000. These domains are connected via Border Router (BR) using iBGP-LS.  Within these domains RSVP is configured as mpls signaling protocol and each domain has its own iBGP and Route Reflector (RR) for that domain. 
+
+Question arises if we are running iBGP-LS between domains and within domains then how iBGP routes will be advertised between domain as have same AS on BGP updates between domain will result into routes discard.  BGP Route Reflector rules will rescue us here, i.e iBGP updates received on RR are reflected to RR clients and non-client iBGP Peers as well, we will configure 2 RR clusters on each border router (internal bgp group as RR within the domain) and "br" group as RR between the domains and BR (Border Routers) opposite to each other will be configured as RR. Routes between iBGP based BR are accepted due to Cluster-ID attribute which is added by each BR while advertising routes to opposite BR.  Logical topology is depicted below:-
+
+![logical_topology](./images/logical_topology.png)
