@@ -8,3 +8,8 @@ In this write up , I will explain , in Junos how to set up RSVP-TE LSPs across m
 ![TED](./images/ted.png)
 
 Above diagram explains this whole operation in chronological order , IGP populates TED and ls dist.0 routing table is populated information from TED using import policy , once ls dist.0 routing is populated then that information is exported into BGP-LS , which also receives TED from peer router and that information is placed into ls dist.0 from where it is exported to TED. Once TED is populated from across domain information then REVP-TE has required information to build the across domain traffic engineered LSPs.
+
+Lab configurations are difficult to assimilate without understanding lab topology so lets understand out lab topology.
+![physical_topology](.images/physical_topology.png)
+
+We have 3 domains (metro domain 1 (mtd1), backbone domain (bbd) and metro domain2 (mtd2), all domains have same autonomous-system (AS) i.e 65000. These domains are connected via Border Router (BR) using iBGP-LS.  Within these domains RSVP is configured as mpls signaling protocol and each domain has its own iBGP and Route Reflector (RR) for that domain. 
